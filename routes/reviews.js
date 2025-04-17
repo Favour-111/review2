@@ -3,7 +3,7 @@ const Review = require("../models/Review");
 
 const router = express.Router();
 
-// Get all reviews
+// Route to fetch all reviews
 router.get("/reviews", async (req, res) => {
   try {
     const reviews = await Review.find();
@@ -14,11 +14,12 @@ router.get("/reviews", async (req, res) => {
   }
 });
 
-// Post a review
+// Route to submit a new review
 router.post("/reviews", async (req, res) => {
   const { name, email, rating, title, experience, age, concern, recommend } =
     req.body;
 
+  // Create a new review
   const newReview = new Review({
     name,
     email,
@@ -31,6 +32,7 @@ router.post("/reviews", async (req, res) => {
   });
 
   try {
+    // Save the review to the database
     const savedReview = await newReview.save();
     res.status(201).json(savedReview);
   } catch (error) {
@@ -38,57 +40,32 @@ router.post("/reviews", async (req, res) => {
     res.status(500).json({ message: "Error submitting review" });
   }
 });
-
-// Toggle Like
+// Like a review
 router.post("/reviews/:id/like", async (req, res) => {
   try {
     const review = await Review.findById(req.params.id);
     if (!review) return res.status(404).json({ message: "Review not found" });
 
-    const { currentAction } = req.body;
-
-    if (currentAction === "like") {
-      // If user already liked, undo like
-      review.likes = Math.max(review.likes - 1, 0);
-    } else {
-      // User switching from unlike to like
-      if (currentAction === "unlike") {
-        review.unlikes = Math.max(review.unlikes - 1, 0);
-      }
-      review.likes += 1;
-    }
-
+    review.likes += 1;
     await review.save();
     res.json(review);
   } catch (error) {
-    console.error("Error updating like:", error);
+    console.error("Error liking review:", error);
     res.status(500).json({ message: "Error updating like" });
   }
 });
 
-// Toggle Unlike
+// Unlike a review
 router.post("/reviews/:id/unlike", async (req, res) => {
   try {
     const review = await Review.findById(req.params.id);
     if (!review) return res.status(404).json({ message: "Review not found" });
 
-    const { currentAction } = req.body;
-
-    if (currentAction === "unlike") {
-      // If user already unliked, undo unlike
-      review.unlikes = Math.max(review.unlikes - 1, 0);
-    } else {
-      // User switching from like to unlike
-      if (currentAction === "like") {
-        review.likes = Math.max(review.likes - 1, 0);
-      }
-      review.unlikes += 1;
-    }
-
+    review.unlikes += 1;
     await review.save();
     res.json(review);
   } catch (error) {
-    console.error("Error updating dislike:", error);
+    console.error("Error disliking review:", error);
     res.status(500).json({ message: "Error updating dislike" });
   }
 });
