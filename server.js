@@ -16,7 +16,7 @@ app.use("/api", reviewRoutes);
 // Connect to MongoDB
 mongoose
   .connect(
-    "mongodb+srv://omojolaobaloluwa:obalolu1976@cluster0.q9yj9ht.mongodb.net/Review",
+    "mongodb+srv://omojolaobaloluwa:obalolu1976@cluster0.q9yj9ht.mongodb.net/Review2",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
