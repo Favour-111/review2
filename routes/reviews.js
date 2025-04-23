@@ -16,14 +16,24 @@ router.get("/reviews", async (req, res) => {
 
 // Route to submit a new review
 router.post("/reviews", async (req, res) => {
-  const { name, email, rating, title, experience, age, concern, recommend } =
-    req.body;
+  const {
+    name,
+    email,
+    rating,
+    page,
+    title,
+    experience,
+    age,
+    concern,
+    recommend,
+  } = req.body;
 
   // Create a new review
   const newReview = new Review({
     name,
     email,
     rating,
+    page,
     title,
     experience,
     age,
