@@ -4,6 +4,12 @@ const Review = require("../models/Review");
 const router = express.Router();
 
 // Route to fetch all reviews
+router.get("/", async (req, res) => {
+  res.send({
+    success: "true",
+    message: "successfully working",
+  });
+});
 router.get("/reviews", async (req, res) => {
   try {
     const reviews = await Review.find();
@@ -21,6 +27,7 @@ router.post("/reviews", async (req, res) => {
     email,
     rating,
     page,
+    position,
     title,
     experience,
     age,
@@ -34,6 +41,7 @@ router.post("/reviews", async (req, res) => {
     email,
     rating,
     page,
+    position,
     title,
     experience,
     age,
