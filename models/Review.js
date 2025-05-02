@@ -8,7 +8,7 @@ const reviewSchema = new mongoose.Schema({
   title: { type: String, required: true },
   experience: { type: String, required: true },
   age: { type: String, required: true },
-  concern: { type: String, required: true },
+  concern: { type: String },
   position: { type: String, required: true },
   recommend: { type: String, required: true },
   likes: { type: Number, default: 0 },

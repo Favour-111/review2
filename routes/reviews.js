@@ -87,5 +87,18 @@ router.post("/reviews/:id/unlike", async (req, res) => {
     res.status(500).json({ message: "Error updating dislike" });
   }
 });
+// Delete a review
+router.delete("/reviews/:id", async (req, res) => {
+  try {
+    const deletedReview = await Review.findByIdAndDelete(req.params.id);
+    if (!deletedReview) {
+      return res.status(404).json({ message: "Review not found" });
+    }
+    res.json({ message: "Review deleted successfully", deletedReview });
+  } catch (error) {
+    console.error("Error deleting review:", error);
+    res.status(500).json({ message: "Error deleting review" });
+  }
+});
 
 module.exports = router;
